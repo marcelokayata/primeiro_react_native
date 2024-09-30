@@ -1,8 +1,9 @@
 {
   "expo": {
     "name": "LetsChatUdemy",
-    "slug": "LetsChatUdemy",
+    "slug": "letschatudemy",
     "version": "1.0.0",
+    "scheme": "com.bertdelaspeed.letschatUdemy",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,6 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -18,13 +22,32 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.bertdelaspeed.letschatUdemy",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "de6577bd-14f9-4da2-89bd-021e667b9e9d"
+      }
+    },
+    "owner": "marcelokayata"
   }
 }
