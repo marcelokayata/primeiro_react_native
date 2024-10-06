@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ActivityIndicator, Image, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { signOut } from 'firebase/auth'
 import { auth, db, userRef } from '../../firebase/config'
@@ -154,7 +154,7 @@ const ProfileScreen = () => {
             ):
           <Image  source={{uri: userImageUrl}} className="h-40 w-full rounded-md" />}
         </TouchableOpacity>
-      <View>
+      <View className="items-center justify-center">
         <Text className='tracking-widest bg-gray-200 rounded-lg w-80 text-base py-2 px-1 mx-3 mb-5 text-blue-900 font-light'>{userName}</Text>      
         <Text className='tracking-widest bg-gray-200 rounded-lg w-80 text-base py-2 px-1 mx-3 mb-5 text-blue-900 font-light'>{userEmail}</Text>
       </View>
@@ -163,6 +163,7 @@ const ProfileScreen = () => {
           <Text className='text-center text-white font-semibold text-lg'>Sign Out {" "}</Text>
         </TouchableOpacity>
       </View>
+      <StatusBar barStyle={"default"} />
     </View>
   )
 }

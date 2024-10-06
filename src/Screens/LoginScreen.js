@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, Alert, StatusBar } from 'react-native'
 import React, { useState } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 const backImage = require('../../assets/background_signin.jpg')
@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../firebase/config"
 import { registerIndieID, unregisterIndieDevice } from 'native-notify';
+import { processAuthError } from '../Utils'
 
 
 const LoginScreen = () => {
@@ -17,7 +18,9 @@ const LoginScreen = () => {
         if( email !== "" && password !== ""){
             signInWithEmailAndPassword(auth, email, password).then(()=>
                 registerIndieID(`${email}`, 23657, '7vNsZwTHZVG4GUMWZ2dQxc')
-            )
+            ).catch((error)=>{
+                processAuthError(error)
+            })
         }
     }
   return (
@@ -30,7 +33,7 @@ const LoginScreen = () => {
             <Text className='text-[#d60e45] text-3xl font-semibold text-center py-3 mt-3'>
                 Sign in{" "}
             </Text>
-            <View>
+            <View className="items-center justify-center">
                 <TextInput
                     className="tracking-widest bg-gray-100 rounded-lg w-80 text-base py-2 px1 mx-3 mb-5"
                     placeholder="Enter Email"
@@ -51,7 +54,7 @@ const LoginScreen = () => {
                     onChangeText={(text) => setPassword(text)}
                 />                
             </View>
-            <TouchableOpacity onPress={onHandleLogin} className="bg-[#fac25a] py-2 rounded-md mx-10 mt-16 mb-3">
+            <TouchableOpacity onPress={onHandleLogin} className="bg-[#fac25a] py-2 rounded-md mx-10 mt-5 mb-3">
                 <Text className="text-center font-semibold text-white text-lg">Login</Text>
             </TouchableOpacity>
             <View className="flex-row space-x-2 justify-center">
@@ -61,7 +64,7 @@ const LoginScreen = () => {
                 </TouchableOpacity>
             </View>
         </View>
-        
+        <StatusBar barStyle={"default"} />
     </KeyboardAwareScrollView>
     
   )

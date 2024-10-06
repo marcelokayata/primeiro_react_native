@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Entypo } from '@expo/vector-icons';
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext'
 import { getDocs, onSnapshot, query, where } from 'firebase/firestore'
-import { combinedData, sortLastMessage } from '../Utils'
+import { combinedData} from '../Utils'
 import ChatItem from '../Components/ChatItem'
 
 const HomeScreen = () => {

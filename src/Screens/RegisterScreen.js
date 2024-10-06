@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, Alert, StatusBar } from 'react-native'
 import React, { useState } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 const backImage = require('../../assets/background_signup.jpg')
@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, db } from "../../firebase/config"
 import { addDoc, collection } from 'firebase/firestore'
+import { processAuthError } from '../Utils'
 
 const RegisterScreen = () => {
     const navigation = useNavigation()
@@ -26,6 +27,8 @@ const RegisterScreen = () => {
                         email:res.user.email,
                         username: res.user.email.split('@')[0]
                     })
+                }).catch((error)=>{
+                    processAuthError(error)
                 })
             }
         }
@@ -42,7 +45,7 @@ const RegisterScreen = () => {
             <Text className='text-[#d60e45] text-3xl font-semibold text-center py-3 mt-3'>
                 Sign up{" "}
             </Text>
-            <View>
+            <View className="items-center justify-center" >
                 <TextInput
                     className="tracking-widest bg-gray-100 rounded-lg w-80 text-base py-2 px1 mx-3 mb-5"
                     placeholder="Enter Email"
@@ -73,7 +76,7 @@ const RegisterScreen = () => {
                     onChangeText={(text) => setConfirmPassword(text)}
                 />
             </View>
-            <TouchableOpacity onPress={onHandleRegister} className="bg-[#fac25a] py-2 rounded-md mx-10 mt-16 mb-3">
+            <TouchableOpacity onPress={onHandleRegister} className="bg-[#fac25a] py-2 rounded-md mx-10 mt-2 mb-3">
                 <Text className="text-center font-semibold text-white text-lg">Register</Text>
             </TouchableOpacity>
             <View className="flex-row space-x-2 justify-center">
@@ -83,7 +86,7 @@ const RegisterScreen = () => {
                 </TouchableOpacity>
             </View>
         </View>
-        
+        <StatusBar barStyle={"default"} />
     </KeyboardAwareScrollView>
     
   )

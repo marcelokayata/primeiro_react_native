@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator, FlatList, ViewBase } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator, FlatList, ViewBase, StatusBar } from 'react-native'
 import React, { useState } from 'react'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { getDocs, query, where } from 'firebase/firestore';
@@ -82,6 +82,7 @@ const SearchScreen = () => {
             <Image source={squirrel} className='h-[85%] w-full'/>
         </View>
       )}
+      <StatusBar barStyle={"default"} />
     </View>
   )
 }

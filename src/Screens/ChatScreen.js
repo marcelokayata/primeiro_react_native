@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, FlatList, StatusBar } from 'react-native'
 import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from 'react'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -179,6 +179,7 @@ const ChatScreen = () => {
                 <MaterialCommunityIcons name="send-circle" size={40} color="orange" className="ml-4" />
               </TouchableOpacity>
             </View>
+            <StatusBar barStyle={"default"} />
           </View>
         )}
       </View>
