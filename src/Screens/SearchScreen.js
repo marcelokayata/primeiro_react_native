@@ -19,7 +19,6 @@ const SearchScreen = () => {
     if(searchFriend !== ''){
       setSearchFriendsName([])
       setIsLoading(true)
-
       const queryResult = query(userRef, where('username', '>=', searchFriend.trim()), where('username', '<=', searchFriend.trim()+'\uf8ff'))
       const querySnapshot = await getDocs(queryResult)
       if(!querySnapshot.empty){

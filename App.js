@@ -12,6 +12,7 @@ import { auth } from './firebase/config';
 import ProfileScreen from './src/Screens/ProfileScreen';
 import SearchScreen from './src/Screens/SearchScreen';
 import ChatScreen from './src/Screens/ChatScreen';
+import SportFriend from './src/Screens/SportFriend';
 const loadingGif = require('./assets/loading.gif')
 
 const Stack = createNativeStackNavigator();
@@ -36,7 +37,13 @@ function RootNavigator(){
   return(
     <NavigationContainer>
       {
-        !user && isLoading === true ? ( <Image source={loadingGif} className="h-full w-full"/> )
+        !user && isLoading === true ? ( 
+          <>
+             {/* <Image source={loadingGif} className="h-full w-full"/>  */}
+             <Text>Mapa</Text>
+          </>
+         
+        )
         : !user && isLoading===false ? (<AuthStack/>):(<MainStack/>)
       }
     </NavigationContainer>
@@ -55,8 +62,9 @@ return (
 function MainStack(){
   return(
       <Stack.Navigator>
-        <Stack.Screen  name='LetsChat' component={HomeScreen}/>
+        <Stack.Screen  name='LetsChat' component={HomeScreen} options={{title: ""}}/>
         <Stack.Screen  name='Profile' component={ProfileScreen}/>
+        <Stack.Screen  name='SportFriend' component={SportFriend}/>
         <Stack.Screen name="Chat" component={ChatScreen}  options={{title: ""}}/>
         <Stack.Screen name="Search" component={SearchScreen} options={{title: "Not found"}}/>
       </Stack.Navigator>

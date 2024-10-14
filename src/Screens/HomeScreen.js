@@ -21,12 +21,24 @@ const HomeScreen = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () =>(
-        <TouchableOpacity onPress={()=> navigation.navigate("Profile")}>
-          {!userAvatarUrl ? (<Image source={userAvatar} className="h-10 w-10"/>) : 
-          (
-            <Image source={{uri: userAvatarUrl}} className="h-10 w-10 rounded-full"/>
-          )}
-        </TouchableOpacity>
+        <>
+          <Text> iuyi</Text>
+          <TouchableOpacity onPress={()=> navigation.navigate("Profile")}>
+            {!userAvatarUrl ? (<Image source={userAvatar} className="h-10 w-10"/>) : 
+            (
+              <Image source={{uri: userAvatarUrl}} className="h-10 w-10 rounded-full"/>
+            )}
+          </TouchableOpacity>
+        </>
+        
+      ),
+      headerLeft: () => (
+        <>
+          <TouchableOpacity onPress={()=> navigation.navigate("SportFriend")}>
+            <Text>Mapa</Text>
+          </TouchableOpacity>
+        
+        </>
       )
     })
   }, [userAvatarUrl])
@@ -171,12 +183,15 @@ const HomeScreen = () => {
         <ActivityIndicator size="large" color="#D44A00"/>
       </View>
     ):(
-      <FlatList 
-        data={combData}
-        renderItem={({item})=>(
-          <ChatItem navigation={navigation} friend={item} />
-        )}
-      />
+      <>
+        <FlatList 
+          data={combData}
+          renderItem={({item})=>(
+            <ChatItem navigation={navigation} friend={item} />
+          )}
+        />
+      </>
+      
     )}
       <View className='flex-1'>
         <View className="flex-row-reverse absolute bottom-14 right-5">
