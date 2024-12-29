@@ -39,9 +39,11 @@ const SportFriend = () => {
       data={usersData}
       renderItem={({ item }) => (
         <View>
+          {item.profilePic ? (
+            <Image source={{uri:item.profilePic}} className="h-12 w-12 rounded-full mx-3" />
+          ):(
           <Image source={userAvatar}  className="h-12 w-12 mx-3"/>
-          
-          <Image source={{uri:item.profilePic}} className="h-12 w-12 rounded-full mx-3" />
+        )}
           {/* Render your array data here */}
           <Text>{item.username}</Text>
           {/* Access other array fields as needed */}
