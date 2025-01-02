@@ -49,14 +49,13 @@ const SportFriend = () => {
       console.log("queryResultPageUsersRef -= ", userDataUpdate)
     }
     const runAsyncFunctions = async () => {
-      const sportData = await fetchAll(setFriends, userRef)
+      const sportData = await fetchAll(userRef, setUsersData)
       console.log("dataFriends aqui: ", sportData)
-      setUsersData(sportData)
     }
-    fetchData()
+    // fetchData()
     updateData()
-    console.log("usersData aqui users: ", usersData)
     runAsyncFunctions()
+    console.log("usersData aqui users: ", usersData)
     
     console.log("Novos dados: ", friends)
   }, [])
