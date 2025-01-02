@@ -2,7 +2,7 @@ import { Image, View, Text, FlatList, StyleSheet  } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { collection, getDocs, query, where,  doc,  updateDoc, addDoc } from 'firebase/firestore';
 import { userRef, pageUsersRef, db } from '../../firebase/config';
-
+import {fetchAll} from '../../firebase/fetchsFunctions'
 
 // Entrar nestes links: https://reactnative.dev/docs/sectionlist https://gemini.google.com/app/4d2257a7afed8685
 
@@ -15,6 +15,7 @@ const SportFriend = () => {
     <Text>{item}</Text>
   );
   const userAvatar = require("../../assets/man.png")
+  let dataUsersChange ={}
   useEffect(()=>  {
     const fetchData = async () => {
       try{
@@ -23,18 +24,44 @@ const SportFriend = () => {
         ...doc.data(),
         id: doc.id
       }));
-      setUsersData(userData);
-      console.log("userData aqui: ", userData)
+      console.log("userData aqui conteudo: ", userData)
+      querySnapshot.forEach((document)=>{
+        dataUsersChange = document.data()
+        console.log("userData aqui conteudo fetch data: ", dataUsersChange)
+        dataUsersChange["esportes"] = {}
+        dataUsersChange["esportes"].academia = true
+        dataUsersChange["esportes"].crossfit = false
+        console.log("userData aqui conteudo fetch data2: ", dataUsersChange)
+
+      })
       }
       catch (error) {
         console.error('Error fetching data:', error);
       }
 
     };
+    const updateData = async () => {
+      const queryResultPageUsersRef = await getDocs(pageUsersRef)
+      const userDataUpdate = queryResultPageUsersRef.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      }));
+      console.log("queryResultPageUsersRef -= ", userDataUpdate)
+    }
+    const runAsyncFunctions = async () => {
+      const sportData = await fetchAll(setFriends, userRef)
+      console.log("dataFriends aqui: ", sportData)
+      setUsersData(sportData)
+    }
     fetchData()
-    console.log("usersData aqui: ", usersData)
+    updateData()
+    console.log("usersData aqui users: ", usersData)
+    runAsyncFunctions()
+    
+    console.log("Novos dados: ", friends)
   }, [])
   return (
+    <>
     <FlatList
       data={usersData}
       renderItem={({ item }) => (
@@ -51,6 +78,7 @@ const SportFriend = () => {
       )}
       keyExtractor={item => item.id}
     />
+    </>
   )
 }
 
