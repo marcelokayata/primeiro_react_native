@@ -1,16 +1,23 @@
-import { Image, View, Text, FlatList, StyleSheet  } from 'react-native'
+import { Image, View, Text, FlatList, StyleSheet, TouchableOpacity  } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { collection, getDocs, query, where,  doc,  updateDoc, addDoc } from 'firebase/firestore';
 import { userRef, pageUsersRef, db } from '../../firebase/config';
 import {fetchAll, fetchUpdateAllEsportes} from '../../firebase/fetchsFunctions'
 
 // Entrar nestes links: https://reactnative.dev/docs/sectionlist https://gemini.google.com/app/4d2257a7afed8685
-
+// match making cloud https://stackoverflow.com/questions/69852087/matchmaking-in-firebase
 const SportFriend = () => {
   const [usersData, setUsersData] = useState([]);
 
   const [found, setFound] = useState(false)
   const [friends, setFriends] = useState([])
+  const [count, setCount] = useState(0);
+
+  const handlePress = (username) => {
+    console.log("item.username: ", username)
+    setCount(count + 1);
+  };
+
   const renderFriendsNames = ({ item }) => (
     <Text>{item}</Text>
   );
@@ -20,11 +27,14 @@ const SportFriend = () => {
     const runAsyncFunctions = async () => {
       const userListData = await fetchAll(userRef, setUsersData)
       console.log("dataFriends aqui: ", userListData)
-      const userListUpdateData = await fetchUpdateAllEsportes(userRef, setUsersData)
-      console.log("userListUpdateData aqui: ", userListUpdateData)
+
+
+      // const userListUpdateData = await fetchUpdateAllEsportes(userRef, setUsersData)
+      // console.log("userListUpdateData aqui: ", userListUpdateData)
 
     }
-    runAsyncFunctions()
+      runAsyncFunctions()
+    
     console.log("usersData aqui users: ", usersData)
     
     console.log("Novos dados: ", friends)
@@ -42,7 +52,12 @@ const SportFriend = () => {
         )}
           {/* Render your array data here */}
           <Text>{item.username}</Text>
+          <Text>{item.id}</Text>
           {/* Access other array fields as needed */}
+          <TouchableOpacity style={styles.button} onPress={() => handlePress(item.username)}>
+            <Text style={styles.buttonText}>Press Me</Text>
+          </TouchableOpacity>
+          <Text style={styles.counterText}>Count: {count}</Text>
         </View>
       )}
       keyExtractor={item => item.id}
@@ -66,5 +81,15 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  buttonText: {
+    color: '#e34e01',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    backgroundColor: 'gold',
+  },
+  counterText: {
+    fontSize: 24,
+    marginBottom: 20,
   },
 });
