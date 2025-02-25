@@ -52,3 +52,46 @@ export const fetchUpdateAllEsportes = async (docSelected) => {
       console.error('Error fetching data fetchAll:', error);
     }
 }
+
+export const fetchUpdateLikeFriend = async (docSelected, userId, likes) => {
+  try{
+  // Estou utilizando o PageUsers para aprender, mas o correto no final será o Users
+  const querySnapshot = await getDocs(docSelected)
+  const userData = querySnapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id
+    }));
+  console.log("Data fetch friend all here: ", userData)
+  console.log("Data fetch friend likes: ", userData[0].likes)
+  let likesSet = new Set(userData[0].likes)
+  const likeAlreadyExists = likesSet.has(userId)
+  console.log("likeAlreadyExists: ", likeAlreadyExists)
+  if (likeAlreadyExists == false){
+
+    querySnapshot.forEach((document)=>{
+      // esportes = document.data()
+      console.log("entrou no likeAlreadyExists:")
+      console.log("document id aqui conteudo fetch friend data: ", document.id)
+      likes = []
+      likes.push(userId)
+      // esportes.crossfit = false
+      // esportes.futebol = false
+      // esportes.futevolei = false
+      // esportes.corrida = false
+      // esportes.caminhada = false
+      // console.log("userData aqui conteudo fetch friend data2: ", esportes)
+      updateDoc(doc(db, "PageUsers", document.id), {
+        likes
+                }).catch((error)=>console.log(error))
+      
+  
+    })
+  }
+  return ""
+
+  
+  }
+  catch (error) {
+      console.error('Error fetching data fetchAll:', error);
+    }
+}

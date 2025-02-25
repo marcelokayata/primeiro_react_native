@@ -2,7 +2,7 @@ import { Image, View, Text, FlatList, StyleSheet, TouchableOpacity  } from 'reac
 import React, { useState, useEffect } from 'react'
 import { collection, getDocs, query, where,  doc,  updateDoc, addDoc } from 'firebase/firestore';
 import { userRef, pageUsersRef, db } from '../../firebase/config';
-import {fetchAll, fetchUpdateAllEsportes} from '../../firebase/fetchsFunctions'
+import {fetchAll, fetchUpdateAllEsportes, fetchUpdateLikeFriend} from '../../firebase/fetchsFunctions'
 
 // Entrar nestes links: https://reactnative.dev/docs/sectionlist https://gemini.google.com/app/4d2257a7afed8685
 // match making cloud https://stackoverflow.com/questions/69852087/matchmaking-in-firebase
@@ -13,8 +13,9 @@ const SportFriend = () => {
   const [friends, setFriends] = useState([])
   const [count, setCount] = useState(0);
 
-  const handlePress = (username) => {
-    console.log("item.username: ", username)
+  const handlePress = (item) => {
+    console.log("item.username: ", item.username)
+    likeFriendData = fetchUpdateLikeFriend(pageUsersRef, item.userId) 
     setCount(count + 1);
   };
 
@@ -54,7 +55,7 @@ const SportFriend = () => {
           <Text>{item.username}</Text>
           <Text>{item.id}</Text>
           {/* Access other array fields as needed */}
-          <TouchableOpacity style={styles.button} onPress={() => handlePress(item.username)}>
+          <TouchableOpacity style={styles.button} onPress={() => handlePress(item)}>
             <Text style={styles.buttonText}>Press Me</Text>
           </TouchableOpacity>
           <Text style={styles.counterText}>Count: {count}</Text>
