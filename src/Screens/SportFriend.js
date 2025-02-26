@@ -2,7 +2,7 @@ import { Image, View, Text, FlatList, StyleSheet, TouchableOpacity  } from 'reac
 import React, { useState, useEffect } from 'react'
 import { collection, getDocs, query, where,  doc,  updateDoc, addDoc } from 'firebase/firestore';
 import { userRef, pageUsersRef, db } from '../../firebase/config';
-import {fetchAll, fetchUpdateAllEsportes, fetchUpdateLikeFriend} from '../../firebase/fetchsFunctions'
+import {fetchAll, fetchUpdateAllEsportes,fetchUpdateLikeFriend, deleteFieldFirebase} from '../../firebase/fetchsFunctions'
 
 // Entrar nestes links: https://reactnative.dev/docs/sectionlist https://gemini.google.com/app/4d2257a7afed8685
 // match making cloud https://stackoverflow.com/questions/69852087/matchmaking-in-firebase
@@ -16,6 +16,7 @@ const SportFriend = () => {
   const handlePress = (item) => {
     console.log("item.username: ", item.username)
     likeFriendData = fetchUpdateLikeFriend(pageUsersRef, item.userId) 
+    // deleteFieldFirebase(pageUsersRef)//Apagar algum campo
     setCount(count + 1);
   };
 

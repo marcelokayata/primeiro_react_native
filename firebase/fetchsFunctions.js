@@ -1,4 +1,4 @@
-import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc, deleteField } from 'firebase/firestore';
 import { db} from './config'
 export const fetchAll = async (docSelected, setData) => {
     try{
@@ -63,7 +63,10 @@ export const fetchUpdateLikeFriend = async (docSelected, userId, likes) => {
     }));
   console.log("Data fetch friend all here: ", userData)
   console.log("Data fetch friend likes: ", userData[0].likes)
+  let likesArray = userData[0].likes
+  console.log("likesArray aqui: ", likesArray)
   let likesSet = new Set(userData[0].likes)
+  console.log("likesSet aqui: ", likesSet)
   const likeAlreadyExists = likesSet.has(userId)
   console.log("likeAlreadyExists: ", likeAlreadyExists)
   if (likeAlreadyExists == false){
@@ -72,14 +75,9 @@ export const fetchUpdateLikeFriend = async (docSelected, userId, likes) => {
       // esportes = document.data()
       console.log("entrou no likeAlreadyExists:")
       console.log("document id aqui conteudo fetch friend data: ", document.id)
-      likes = []
+      likes = likesArray
       likes.push(userId)
-      // esportes.crossfit = false
-      // esportes.futebol = false
-      // esportes.futevolei = false
-      // esportes.corrida = false
-      // esportes.caminhada = false
-      // console.log("userData aqui conteudo fetch friend data2: ", esportes)
+      
       updateDoc(doc(db, "PageUsers", document.id), {
         likes
                 }).catch((error)=>console.log(error))
@@ -90,6 +88,26 @@ export const fetchUpdateLikeFriend = async (docSelected, userId, likes) => {
   return ""
 
   
+  }
+  catch (error) {
+      console.error('Error fetching data fetchAll:', error);
+    }
+}
+
+export const deleteFieldFirebase = async (docSelected) => {
+  try{
+    const querySnapshot = await getDocs(docSelected)
+    const userData = querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      }));
+    console.log("Data delete ")
+    querySnapshot.forEach((document)=>{
+      updateDoc(doc(db, "PageUsers", document.id), {
+        likesArray: deleteField()
+        }).catch((error)=>console.log(error))
+    })
+
   }
   catch (error) {
       console.error('Error fetching data fetchAll:', error);
